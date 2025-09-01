@@ -7,10 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import authService from 'src/services/auth.service';
 import KBlanxerLogo from '@components/KBlanxerLogo';
 import { validation } from '@helpers/validation.helper';
+import { useStore } from '@store/store';
 
 export default function LoginPassword() {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const { setUser } = useStore();
 
   const loginForm = useForm({
     initialValues: {
@@ -35,6 +37,8 @@ export default function LoginPassword() {
       localStorage.setItem(access_token, res?.access_token);
       localStorage.setItem(refresh_token, res?.refresh_token);
       localStorage.setItem(user_data, JSON.stringify(res?.user_data));
+
+      useStore.setState({ isLoggedIn: true, user: { ...res?.user_data } });
 
       navigate('/dashboard');
     } catch (e) {

@@ -8,7 +8,7 @@ type IRequestLogin = {
 
 const authService = {
   login: (payload: IRequestLogin): Promise<{ success: boolean }> =>
-    axiosInstance.post('/auth/login', payload),
+    axiosInstance.post('/super/auth/login', payload),
 };
 
 export default authService;
