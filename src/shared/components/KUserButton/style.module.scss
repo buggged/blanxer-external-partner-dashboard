@@ -1,0 +1,20 @@
+.userButton {
+  height: 73px;
+  width: 100%;
+  color: var(--mantine-color-black);
+  padding: var(--mantine-spacing-md);
+  background-color: var(--btn-bg-color, transparent);
+
+  @include hover {
+    background-color: var(--mantine-color-gray-0);
+  }
+
+  @include dark {
+    color: var(--mantine-color-dark-0);
+    background-color: var(--btn-bg-color-dark, transparent);
+
+    @include hover {
+      background-color: var(--mantine-color-dark-8);
+    }
+  }
+}

@@ -1,0 +1,41 @@
+.navLinkActive {
+  background-color: $color-custom-0;
+  color: $color-custom-6 !important;
+
+  @include dark {
+    background-color: $color-dark-6;
+  }
+}
+
+.navLink {
+  display: block;
+  padding: 8px $spacing-xs;
+  border-radius: $br;
+  color: $color-gray-6;
+
+  @include hover {
+    @extend .navLinkActive;
+  }
+}
+
+.navLabel {
+  color: $color-gray-7;
+  font-size: $font-size-xs;
+  font-weight: 500;
+
+  @include dark {
+    color: $color-dark-0;
+  }
+}
+
+.collectionHeader {
+  padding-left: calc($spacing-md + 2px);
+  padding-right: $spacing-md;
+  margin-bottom: 4px;
+  margin-top: $spacing-md;
+}
+
+.collections {
+  padding-left: calc($spacing-md - 6px);
+  padding-right: calc($spacing-md - 6px);
+}

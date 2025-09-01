@@ -1,0 +1,115 @@
+@layer tailwind {
+  @tailwind base;
+}
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary-50: var(--mantine-primary-color-0);
+  --color-primary-100: var(--mantine-primary-color-1);
+  --color-primary-200: var(--mantine-primary-color-2);
+  --color-primary-300: var(--mantine-primary-color-3);
+  --color-primary-400: var(--mantine-primary-color-4);
+  --color-primary-500: var(--mantine-primary-color-5);
+  --color-primary-600: var(--mantine-primary-color-6);
+  --color-primary-700: var(--mantine-primary-color-7);
+  --color-primary-800: var(--mantine-primary-color-8);
+  --color-primary-900: var(--mantine-primary-color-9);
+}
+
+.debug {
+  @apply border border-red-500;
+}
+
+.debug-alt {
+  @apply bg-red-500;
+}
+
+.dim {
+  @apply text-[#868e96] dark:text-dark-200;
+}
+
+.table-head {
+  @apply text-[#868e96] dark:text-dark-200 uppercase text-[11px];
+}
+
+@layer components {
+  .btn-primary {
+    @apply flex justify-center font-semibold items-center border border-primary-500 bg-primary-600 text-white py-2 px-6 rounded-[4px] cursor-pointer hover:bg-primary-700 hover:border-primary-600 disabled:bg-gray-100 disabled:text-gray-400 disabled:border-transparent disabled:cursor-not-allowed;
+  }
+  .btn-secondary {
+    @apply flex justify-center font-semibold items-center border border-primary-500 text-primary-500 py-2 px-6 rounded-[4px] cursor-pointer hover:bg-primary-50 disabled:bg-gray-100 disabled:text-gray-400 disabled:border-transparent disabled:cursor-not-allowed;
+  }
+  .tiptap {
+    /* ...existing code... */
+
+    /* Table-specific styling */
+    table {
+      border-collapse: collapse;
+      margin: 0;
+      overflow: hidden;
+      table-layout: fixed;
+      width: 100%;
+
+      td,
+      th {
+        border: 1px solid #dee2e6; /* neutral gray border */
+        box-sizing: border-box;
+        min-width: 1em;
+        padding: 6px 8px;
+        position: relative;
+        vertical-align: top;
+
+        > * {
+          margin-bottom: 0;
+        }
+      }
+
+      th {
+        background-color: #f8f9fa; /* light gray background */
+        font-weight: bold;
+        text-align: left;
+        color: #495057; /* darker text for headers */
+      }
+
+      .selectedCell:after {
+        background: rgba(35, 131, 226, 0.14) !important;
+        content: '';
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        pointer-events: none;
+        position: absolute;
+        z-index: 2;
+      }
+
+      .column-resize-handle {
+        background-color: #228be6; /* blue resize handle */
+        bottom: -2px;
+        pointer-events: none;
+        position: absolute;
+        right: -2px;
+        top: 0;
+        width: 4px;
+      }
+
+      /* Add hover effect for better UX */
+      td:hover {
+        background-color: #f1f3f5; /* very light gray hover */
+      }
+    }
+
+    .tableWrapper {
+      margin: 1.5rem 0;
+      overflow-x: auto;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* subtle shadow */
+    }
+
+    &.resize-cursor {
+      cursor: ew-resize;
+      cursor: col-resize;
+    }
+  }
+}
