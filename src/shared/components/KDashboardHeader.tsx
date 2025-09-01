@@ -67,32 +67,6 @@ export default function KDashboardHeader({ open, onToggle }: any) {
               minWidth: 0,
             }}
             gap={isMobile ? 4 : undefined}>
-            <Link to='/dashboard/pos'>
-              <div className='relative'>
-                <Button
-                  size={isMobile ? 'sm' : 'md'}
-                  color='custom'
-                  leftSection={<IconBarcode size={isMobile ? 16 : 22} />}
-                  variant='outline'>
-                  POS MODE
-                </Button>
-                <div className='absolute top-[-12px] right-[-10px] bg-red-500 rounded-[4px]'>
-                  <p className='text-[10px] font-bold py-1 px-2 text-white'>
-                    BETA
-                  </p>
-                </div>
-              </div>
-            </Link>
-
-            <Link to='/dashboard/getting-started'>
-              <ActionIcon
-                size={isMobile ? 'md' : 'lg'}
-                color='custom'
-                variant='subtle'>
-                <IconHelp />
-              </ActionIcon>
-            </Link>
-
             <Menu
               opened={showMenu}
               onClose={() => setShowMenu(false)}
@@ -124,14 +98,6 @@ export default function KDashboardHeader({ open, onToggle }: any) {
                   <div className='flex'>
                     <p>Dark Mode</p>
                   </div>
-                </Menu.Item>
-
-                <Menu.Item
-                  component={Link}
-                  to='/dashboard/subscription'
-                  onClick={() => setShowMenu(false)}
-                  leftSection={<IconCoin size={14} />}>
-                  Subscription
                 </Menu.Item>
 
                 <Menu.Divider />

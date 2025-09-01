@@ -1,7 +1,6 @@
 import { KUserButton } from '@components/KUserButton';
 import { AppShell, Badge, Box, Group, ScrollArea, Text } from '@mantine/core';
 import { NavLink } from 'react-router-dom';
-import style from './style.module.scss';
 import {
   BadgeIndianRupee,
   BugIcon,
@@ -50,12 +49,15 @@ const KNavLink = ({ label, goto, image, icon, badge, onClose }: any) => {
       to={goto}
       end
       className={({ isActive }) =>
-        `${style.navLink} ${isActive ? style.navLinkActive : ''}`
+        [
+          'block px-2 py-2 rounded-md text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 transition-colors',
+          isActive ? 'bg-gray-100 text-gray-900 dark:bg-gray-800' : '',
+        ].join(' ')
       }>
       <Group justify='space-between'>
         <Group align='center'>
           {icon ? icon : <img style={{ width: 16 }} src={image} alt='' />}
-          <Text className={style.navLabel}>{label}</Text>
+          <Text className="text-gray-700 text-xs font-medium dark:text-gray-100">{label}</Text>
         </Group>
         {!!badge && (
           <Badge color='red' size='xs'>
@@ -68,46 +70,17 @@ const KNavLink = ({ label, goto, image, icon, badge, onClose }: any) => {
 };
 
 export default function KDashboardNavbar({ onClose, onSwitchStore }: any) {
-  // const { current_store } = useStores();
+
 
   return (
     <AppShell.Navbar>
-      {/* Navbar Header | Switch Store button */}
-      <AppShell.Section
-        style={{ borderBottom: '1px solid var(--app-shell-border-color)' }}>
-        <KUserButton name={''} role={''} onClick={onSwitchStore} />
-      </AppShell.Section>
-
-      {/* Navbar Navigation Links */}
-      <AppShell.Section grow component={ScrollArea}>
-        <Box className={style.collectionHeader}>
-          <Text size='xs' fw={500} c='dimmed'>
-            Main Links
-          </Text>
-        </Box>
-        <div className={style.collections}>
-          {mainLinks.map((el: any) => {
-            return <KNavLink key={el.label} {...el} onClose={onClose} />;
-          })}
-        </div>
-
-        <Box className={style.collectionHeader}>
-          <Text size='xs' fw={500} c='dimmed'>
-            Customizations
-          </Text>
-        </Box>
-        <div className={style.collections}>
-          {customizationLinks.map((el) => {
-            return <KNavLink key={el.label} {...el} onClose={onClose} />;
-          })}
-        </div>
-      </AppShell.Section>
+    
     </AppShell.Navbar>
   );
 }
 
 export function KDashboardNavbarDrawer({ onClose, onSwitchStore }: any) {
-  // const { current_store } = useStores();
+
 
   return (
     <Box>
@@ -122,23 +95,23 @@ export function KDashboardNavbarDrawer({ onClose, onSwitchStore }: any) {
 
       {/* Navbar Navigation Links */}
       <Box component={ScrollArea}>
-        <Box className={style.collectionHeader}>
+        <Box className="px-5 mb-1 mt-4">
           <Text size='xs' fw={500} c='dimmed'>
             Main Links
           </Text>
         </Box>
-        <div className={style.collections}>
+        <div className="px-3">
           {mainLinks.map((el: any) => {
             return <KNavLink key={el.label} {...el} onClose={onClose} />;
           })}
         </div>
 
-        <Box className={style.collectionHeader}>
+        <Box className="px-5 mb-1 mt-4">
           <Text size='xs' fw={500} c='dimmed'>
             Customizations
           </Text>
         </Box>
-        <div className={style.collections}>
+        <div className="px-3">
           {customizationLinks.map((el) => {
             return <KNavLink key={el.label} {...el} onClose={onClose} />;
           })}

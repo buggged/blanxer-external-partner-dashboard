@@ -1,5 +1,9 @@
+import { KDashboardLayout } from '@components/KDashboardLayout';
 import generalConstants from '@constants/general';
 import LoginPassword from '@features/auth/LoginPassword';
+import Dashboard from '@features/dashboard/Dashboard';
+import HomeDashboard from '@features/homeDashboard/HomeDashboard';
+import { useStore } from '@store/store';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -8,11 +12,19 @@ function App() {
   //   storageToState();
   // }, []);
 
+  const { isLoggedIn } = useStore();
+
   return (
     <BrowserRouter>
       <Routes>
         <Route index element={<IsLogged />} />
         <Route path='/login' element={<LoginPassword />} />
+
+        {isLoggedIn && (
+          <Route path='/dashboard' element={<KDashboardLayout />}>
+            <Route index element={<HomeDashboard />} />
+          </Route>
+        )}
       </Routes>
     </BrowserRouter>
   );

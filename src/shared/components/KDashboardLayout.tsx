@@ -16,30 +16,22 @@ export function KDashboardLayout() {
     <div>
       <AppShell
         layout='alt'
-        navbar={{
-          width: 240,
-          breakpoint: 'sm',
-          collapsed: {
-            mobile: true,
-            desktop: false,
-          },
-        }}
+        // navbar={{
+        //   width: 240,
+        //   breakpoint: 'sm',
+        //   collapsed: {
+        //     mobile: true,
+        //     desktop: false,
+        //   },
+        // }}
         styles={{
           main: { backgroundColor: 'var(--bg-color-alt)' },
         }}
-        // aside={{
-        //   width: 320,
-        //   breakpoint: 'sm',
-        //   collapsed: { mobile: true, desktop: builder.state === 'closed' },
-        // }}
+
         padding='md'>
         <KDashboardNavbar onClose={close} onSwitchStore={() => {}} />
 
-        {/* {builder.state === 'open' && (
-          <AppShell.Header>
-            <KBuilderHeader />
-          </AppShell.Header>
-        )} */}
+   
 
         <AppShell.Main>
           <KDashboardHeader
