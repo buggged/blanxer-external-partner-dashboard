@@ -22,14 +22,14 @@ import { useMediaQuery } from '@mantine/hooks';
 import { Link } from 'react-router-dom';
 import { IconCoin } from '@tabler/icons-react';
 import { IconLogout } from '@tabler/icons-react';
-// import useAuth from '@hooks/useAuth';
+import useAuth from '@hooks/useAuth';
 import { getStartingOfName } from '@helpers/general.helper';
 import { useState } from 'react';
 
 export default function KDashboardHeader({ open, onToggle }: any) {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const isMobile = useMediaQuery('(max-width: 767px)', false);
-  // const { doLogout, user } = useAuth();
+  const { doLogout } = useAuth();
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
   return (
@@ -104,7 +104,7 @@ export default function KDashboardHeader({ open, onToggle }: any) {
 
                 <Menu.Item
                   onClick={() => {
-                    // doLogout();
+                    doLogout();
                     setShowMenu(false);
                   }}
                   color={'red'}

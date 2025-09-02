@@ -1,18 +1,15 @@
 import { KDashboardLayout } from '@components/KDashboardLayout';
 import generalConstants from '@constants/general';
 import LoginPassword from '@features/auth/LoginPassword';
-import Dashboard from '@features/dashboard/Dashboard';
 import HomeDashboard from '@features/homeDashboard/HomeDashboard';
 import { useStore } from '@store/store';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 function App() {
-  // const { storageToState, user } = useAuth();
-  // useEffect(() => {
-  //   storageToState();
-  // }, []);
 
   const { isLoggedIn } = useStore();
+
+  console.log("is logged in from the store:", isLoggedIn);
 
   return (
     <BrowserRouter>
@@ -25,6 +22,8 @@ function App() {
             <Route index element={<HomeDashboard />} />
           </Route>
         )}
+
+        <Route path='*' element={<Navigate to='/' />} />
       </Routes>
     </BrowserRouter>
   );
