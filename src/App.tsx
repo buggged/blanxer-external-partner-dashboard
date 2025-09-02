@@ -9,8 +9,6 @@ function App() {
 
   const { isLoggedIn } = useStore();
 
-  console.log("is logged in from the store:", isLoggedIn);
-
   return (
     <BrowserRouter>
       <Routes>
