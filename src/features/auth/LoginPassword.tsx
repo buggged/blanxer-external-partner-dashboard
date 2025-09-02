@@ -12,7 +12,6 @@ import { useStore } from '@store/store';
 export default function LoginPassword() {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
-  const { setUser } = useStore();
 
   const loginForm = useForm({
     initialValues: {
