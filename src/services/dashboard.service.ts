@@ -12,9 +12,9 @@ const dashboardService = {
     return axiosInstance.get(`/analytics/dashboard/daily`);
   },
 
-  getDashboard: (): Promise<any> => {
+  getDashboard: (status: string): Promise<any> => {
 
-    return axiosInstance.get(`/analytics/dashboard`);
+    return axiosInstance.get(`/super/stores/qr_request/${status}`);
   },
 };
 
