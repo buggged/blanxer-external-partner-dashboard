@@ -22,11 +22,13 @@ export default function HomeDashboard() {
 
   const fetchQrRequestData = async () => {
     try {
+      setLoading(true);
       const response = await dashboardService.getDashboard(tab.toLowerCase());
-      console.log('the requests are : ', response);
       setRequests(response.stores);
     } catch (err) {
       notify.genericError('Error', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -62,11 +64,10 @@ export default function HomeDashboard() {
             render: (el: any) => (
               <>
                 <Text fz={14}>{el?.kyc?.name}</Text>
-               
               </>
             ),
           },
-       
+
           {
             accessor: 'kyc_status',
             title: 'KYC Status',
@@ -101,59 +102,45 @@ export default function HomeDashboard() {
             accessor: 'pan',
             title: 'PAN',
             sortable: false,
-            render: (el: any) => (
-              <Text fz={14}>{el?.kyc?.pan}</Text>
-            ),
+            render: (el: any) => <Text fz={14}>{el?.kyc?.pan}</Text>,
           },
-            {
+          {
             accessor: 'bank_name',
             title: 'Bank Name',
             sortable: false,
-            render: (el: any) => (
-              <Text fz={14}>{el?.kyc?.bank_name}</Text>
-            ),
+            render: (el: any) => <Text fz={14}>{el?.kyc?.bank_name}</Text>,
           },
           {
             accessor: 'account_number',
             title: 'Account Number',
             sortable: false,
-            render: (el: any) => (
-              <Text fz={14}>{el?.kyc?.account_number}</Text>
-            ),
+            render: (el: any) => <Text fz={14}>{el?.kyc?.account_number}</Text>,
           },
-           {
+          {
             accessor: 'phone',
             title: 'Phone Number',
             sortable: false,
-            render: (el: any) => (
-              <Text fz={14}>{el?.kyc?.phone}</Text>
-            ),
+            render: (el: any) => <Text fz={14}>{el?.kyc?.phone}</Text>,
           },
           {
             accessor: 'bank_branch',
             title: 'Bank Branch',
             sortable: false,
-            render: (el: any) => (
-              <Text fz={14}>{el?.kyc?.bank_branch}</Text>
-            ),
+            render: (el: any) => <Text fz={14}>{el?.kyc?.bank_branch}</Text>,
           },
-               {
+          {
             accessor: 'address',
             title: 'Address',
             sortable: false,
-            render: (el: any) => (
-              <Text fz={14}>{el?.kyc?.address}</Text>
-            ),
+            render: (el: any) => <Text fz={14}>{el?.kyc?.address}</Text>,
           },
-         
-         
         ]}
         onRowClick={({ record }) => {
           setSelectedRequest(record);
         }}
         idAccessor='_id'
       />
-         <QrRequestDetailDrawer
+      <QrRequestDetailDrawer
         open={!!selectedRequest}
         onClose={() => setSelectedRequest(null)}
         store={selectedRequest}
