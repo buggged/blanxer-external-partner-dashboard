@@ -4,10 +4,14 @@ import KDashboardHeader from './KDashboardHeader';
 import KDashboardNavbar, { KDashboardNavbarDrawer } from './KDashboardNavbar';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useStore } from '@store/store';
 
 export function KDashboardLayout() {
   const isMobile = useMediaQuery('(max-width: 768px)', false);
   const navigate = useNavigate();
+  const {user} = useStore();
+
+  console.log("user from the store in the layout:", user);
 
   const [opened, { open, close }] = useDisclosure(); // sidebar state
   const [openAddStore, setOpenAddStore] = useState<boolean>(false);
