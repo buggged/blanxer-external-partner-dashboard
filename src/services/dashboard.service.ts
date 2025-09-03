@@ -16,6 +16,9 @@ const dashboardService = {
 
     return axiosInstance.get(`/super/stores/qr_request/${status}`);
   },
+  updateQrRequest: (payload: any): Promise<any> => {
+    return axiosInstance.post(`/super/stores/qr_request/accept`, payload);
+  }
 };
 
 export default dashboardService;
