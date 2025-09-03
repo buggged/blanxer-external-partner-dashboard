@@ -30,7 +30,6 @@ const notify = {
   },
   genericError: (title: string, error: any) => {
     const message = decodeErrorMessage(error);
-    console.log("from the genericError: mes", message)
     if (!!message) {
       toast.error(title, {
         className: 'bx-toast-error',

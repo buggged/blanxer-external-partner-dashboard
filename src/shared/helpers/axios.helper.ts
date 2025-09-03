@@ -24,7 +24,6 @@ axiosInstance.interceptors.response.use(
   },
 
   async function (error) {
-    console.log("the error from the axios interceptor is: ", error);
     if (error?.response && error?.response?.data) {
       //send error payload only
       //   if (error?.response?.data?.message === 'Session expired, please login again') {

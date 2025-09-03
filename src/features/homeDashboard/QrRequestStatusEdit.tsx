@@ -55,8 +55,6 @@ export default function QrRequestStatusEdit({
     const base64form = base64_encode(encodedToken);
 
     try {
-      console.log('the udpate request payload is : ', requestForm.values);
-      console.log('and the base64 is : ', base64form);
       const payload = { token: base64form, store_id: store._id };
       await dashboardService.updateQrRequest(payload);
 
@@ -64,7 +62,6 @@ export default function QrRequestStatusEdit({
       requestForm.reset();
       onClose();
     } catch (err: { message: string } | any) {
-      console.log('error from the edit form: ', err.message);
       notify.genericError('Error updating Request', err);
     }
     setLoading(false);
