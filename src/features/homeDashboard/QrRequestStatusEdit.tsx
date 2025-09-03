@@ -1,7 +1,9 @@
 import { badgeStatusColor } from '@constants/color';
 import notify from '@helpers/notification.helper';
-import { Badge, Group } from '@mantine/core';
+import { validation } from '@helpers/validation.helper';
+import { Badge, Flex, Group, TextInput } from '@mantine/core';
 import { Button, Modal, Select, Text } from '@mantine/core';
+import { useForm } from '@mantine/form';
 // import productSlice from '@store/slice/product';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -20,20 +22,33 @@ export default function QrRequestStatusEdit({
 }: any) {
   // const dispatch = useDispatch();
   const [loading, setLoading] = useState<boolean>(false);
-  const [newStatus, setNewStatus] = useState<string>(
-    store?.addons?.qr_request || '',
-  );
+  const requestForm = useForm({
+    initialValues: {
+      username: '',
+      merchantId: '',
+      password: '',
+    },
+    validate: {
+      username: (val: string) =>
+        validation.required(val, 'fonepay username is required'),
+      merchantId: (val: string) =>
+        validation.required(val, 'fonepay merchant ID is required'),
+      password: (val: string) =>
+        validation.required(val, 'fonepay password is required'),
+    },
+  });
 
-  const updateOrder = async () => {
+  const updateRequest = async () => {
     setLoading(true);
     try {
+      console.log('the udpate request payload is : ', requestForm.values);
       //   const payload = { status: newStatus, payment_status: newPStatus };
       //   await orderService.updateStatus(order_id, payload);
       //   if (['Cancelled', 'Returned'].includes(newStatus) && status != 'Draft') {
       //     dispatch(productSlice.actions.resetData());
       //   }
       notify.succces('Success', 'QR request Status updated successfully');
-
+      requestForm.reset();
       onClose();
     } catch (err) {
       notify.genericError('Error updating order', err);
@@ -45,38 +60,38 @@ export default function QrRequestStatusEdit({
     <Modal
       opened={open}
       onClose={() => onClose?.()}
-      title={`Change QR Request Status`}
+      title={'Add fonepay detail'}
       size='md'
       styles={{
         title: {
           fontWeight: 600,
         },
       }}>
-      <Group>
-        <Text fz={13} fw={600}>
-          Current Status:
-        </Text>
-        <Badge
-          variant='light'
-          color={badgeStatusColor[store?.addons?.qr_request]}>
-          {store?.addons?.qr_request || 'N/A'}
-        </Badge>
-      </Group>
+      <form onSubmit={requestForm.onSubmit(updateRequest)}>
+        <Flex direction='column' gap={16} mt={16}>
+          <TextInput
+            label='Fonepay username'
+            placeholder='eg: johndoe'
+            {...requestForm.getInputProps('username')}
+          />
+          <TextInput
+            label='Fonepay Merchant ID'
+            placeholder='eg: 123456789'
+            {...requestForm.getInputProps('merchantId')}
+          />
+          <TextInput
+            label='Fonepay Password'
+            placeholder='enter password'
+            {...requestForm.getInputProps('password')}
+          />
+        </Flex>
 
-      <Select
-        my='md'
-        label='Order Status'
-        value={newStatus}
-        onChange={(e) => setNewStatus(e || '')}
-        placeholder='Pick one'
-        data={QrRequestStatus}
-      />
-
-      <Group justify='flex-end'>
-        <Button onClick={updateOrder} loading={loading}>
-          Save
-        </Button>
-      </Group>
+        <Group justify='flex-end' mt={16}>
+          <Button  loading={loading} type='submit'>
+            Save
+          </Button>
+        </Group>
+      </form>
     </Modal>
   );
 }
