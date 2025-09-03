@@ -12,15 +12,11 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-const QrRequestStatus = [
-  { value: 'approved', label: 'Approve' },
-  { value: 'rejected', label: 'Reject' },
-  { value: 'pending', label: 'Pending' },
-];
+
 export default function QrRequestAccept({
   open,
   onClose,
-  isPos = false,
+  onRefresh,
   store,
 }: any) {
   // const dispatch = useDispatch();
@@ -71,6 +67,7 @@ export default function QrRequestAccept({
       notify.succces('Success', 'QR request updated successfully');
       requestForm.reset();
       onClose();
+      onRefresh();
     } catch (err: { message: string } | any) {
       notify.genericError('Error Accepting Request', err);
     }

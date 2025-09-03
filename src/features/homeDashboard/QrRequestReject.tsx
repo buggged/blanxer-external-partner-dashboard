@@ -20,45 +20,33 @@ const QrRequestStatus = [
 export default function QrRequestReject({
   open,
   onClose,
-  isPos = false,
+  onRefresh,
   store,
 }: any) {
   // const dispatch = useDispatch();
   const [loading, setLoading] = useState<boolean>(false);
-  const requestForm = useForm({
-    initialValues: {
-      username: '',
-      merchantId: '',
-      password: '',
-    },
-    validate: {
-      username: (val: string) =>
-        validation.required(val, 'fonepay username is required'),
-      // merchantId: (val: string) =>
-      //   validation.required(val, 'fonepay merchant ID is required'),
-      password: (val: string) =>
-        validation.required(val, 'fonepay password is required'),
-    },
-  });
+
 
   const rejectForm = useForm({
     initialValues: {
-      reason: '',
+      reject_reason: '',
     },
     validate: {
-      reason: (val: string) =>
+      reject_reason: (val: string) =>
         validation.required(val, 'Rejection reason is required'),
     },
   });
 
   const rejectRequest = async () => {
     setLoading(true);
+    console.log("inside the reject request function: ", rejectForm.values.reject_reason);
 
     try {
-      const payload = { store_id: store._id, reason: rejectForm.values.reason };
+      const payload = { store_id: store._id, reject_reason: rejectForm.values.reject_reason };
       await dashboardService.rejectQrRequest(payload);
       notify.succces('Success', 'QR request updated successfully');
-      requestForm.reset();
+      rejectForm.reset();
+      onRefresh();
       onClose();
     } catch (err) {
       notify.genericError('Error Rejecting Request', err);
@@ -78,23 +66,18 @@ export default function QrRequestReject({
           fontWeight: 600,
         },
       }}>
-      <form onSubmit={requestForm.onSubmit(rejectRequest)}>
+      <form onSubmit={rejectForm.onSubmit(rejectRequest)}>
         <Flex direction='column' gap={16} mt={16}>
-          <TextInput
-            label='Fonepay username'
-            placeholder='eg: johndoe'
-            {...requestForm.getInputProps('username')}
+          <Textarea
+            label='Rejection Reason'
+            placeholder='Enter reason for rejection'
+            {...rejectForm.getInputProps('reject_reason')}
           />
-        <Textarea
-          label='Rejection Reason'
-          placeholder='Enter reason for rejection'
-          {...rejectForm.getInputProps('reason')}
-        />
         </Flex>
 
         <Group justify='flex-end' mt={16}>
-          <Button loading={loading} type='submit'>
-            Save
+          <Button loading={loading} color='red' type='submit'>
+            Reject
           </Button>
         </Group>
       </form>

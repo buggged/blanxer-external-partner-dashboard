@@ -126,25 +126,24 @@ export default function QrRequestDetailDrawer({
                     {store?.addons?.qr_request || 'N/A'}
                   </Badge>
 
-                  {/* <ActionIcon onClick={() => setRequestShowEdit(true)}>
-                    <IconEdit size={18} />
-                  </ActionIcon> */}
-                  {store?.addons?.qr_request === 'pending' && (
-                    <Group>
+                  <Group>
+                    {store?.addons?.qr_request !== 'approved' && (
                       <Button
                         variant='filled'
                         color='green'
                         onClick={() => setRequestShowEdit(true)}>
                         Accept
                       </Button>
+                    )}
+                    {store?.addons?.qr_request !== 'rejected' && (
                       <Button
                         variant='outline'
                         color='red'
                         onClick={() => setRequestShowReject(true)}>
                         Reject
                       </Button>
-                    </Group>
-                  )}
+                    )}
+                  </Group>
                 </Group>
               </Box>
             </div>
@@ -250,16 +249,20 @@ export default function QrRequestDetailDrawer({
       <QrRequestAccept
         open={requestShowEdit}
         onClose={(val?: any) => {
+          onClose();
           setRequestShowEdit(false);
         }}
         store={store}
+        onRefresh={onRefresh}
       />
       <QrRequestReject
         open={requestShowReject}
         onClose={(val?: any) => {
+          onClose();
           setRequestShowReject(false);
         }}
         store={store}
+        onRefresh={onRefresh}
       />
     </>
   );
