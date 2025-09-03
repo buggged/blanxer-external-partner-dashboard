@@ -2,7 +2,7 @@ import { badgeStatusColor } from '@constants/color';
 import { rotateCharacter } from '@helpers/general.helper';
 import notify from '@helpers/notification.helper';
 import { validation } from '@helpers/validation.helper';
-import { Badge, Flex, Group, TextInput } from '@mantine/core';
+import { Badge, Flex, Group, Textarea, TextInput } from '@mantine/core';
 import { Button, Modal, Select, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import dashboardService from '@services/dashboard.service';
@@ -17,7 +17,7 @@ const QrRequestStatus = [
   { value: 'rejected', label: 'Reject' },
   { value: 'pending', label: 'Pending' },
 ];
-export default function QrRequestStatusEdit({
+export default function QrRequestReject({
   open,
   onClose,
   isPos = false,
@@ -41,60 +41,55 @@ export default function QrRequestStatusEdit({
     },
   });
 
-  const updateRequest = async () => {
+  const rejectForm = useForm({
+    initialValues: {
+      reason: '',
+    },
+    validate: {
+      reason: (val: string) =>
+        validation.required(val, 'Rejection reason is required'),
+    },
+  });
+
+  const rejectRequest = async () => {
     setLoading(true);
 
-    const encodedToken = rotateCharacter(
-      JSON.stringify({
-        u: requestForm.values.username,
-        pw: requestForm.values.password,
-        mi: requestForm.values.merchantId,
-      }),
-    );
-
-    const base64form = base64_encode(encodedToken);
-
     try {
-      const payload = { token: base64form, store_id: store._id };
-      await dashboardService.updateQrRequest(payload);
-
+      const payload = { store_id: store._id, reason: rejectForm.values.reason };
+      await dashboardService.rejectQrRequest(payload);
       notify.succces('Success', 'QR request updated successfully');
       requestForm.reset();
       onClose();
-    } catch (err: { message: string } | any) {
-      notify.genericError('Error updating Request', err);
+    } catch (err) {
+      notify.genericError('Error Rejecting Request', err);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
     <Modal
       opened={open}
       onClose={() => onClose?.()}
-      title={'Add fonepay detail'}
+      title={'Reject QR Request'}
       size='md'
       styles={{
         title: {
           fontWeight: 600,
         },
       }}>
-      <form onSubmit={requestForm.onSubmit(updateRequest)}>
+      <form onSubmit={requestForm.onSubmit(rejectRequest)}>
         <Flex direction='column' gap={16} mt={16}>
           <TextInput
             label='Fonepay username'
             placeholder='eg: johndoe'
             {...requestForm.getInputProps('username')}
           />
-          <TextInput
-            label='Fonepay Merchant ID'
-            placeholder='eg: 123456789'
-            {...requestForm.getInputProps('merchantId')}
-          />
-          <TextInput
-            label='Fonepay Password'
-            placeholder='enter password'
-            {...requestForm.getInputProps('password')}
-          />
+        <Textarea
+          label='Rejection Reason'
+          placeholder='Enter reason for rejection'
+          {...rejectForm.getInputProps('reason')}
+        />
         </Flex>
 
         <Group justify='flex-end' mt={16}>

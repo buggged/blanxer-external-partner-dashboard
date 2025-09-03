@@ -19,7 +19,8 @@ import { IconArrowRight, IconEdit, IconPrinter } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
 import { badgeStatusColor } from '@constants/color';
 import { useState } from 'react';
-import QrRequestStatusEdit from './QrRequestStatusEdit';
+import QrRequestAccept from './QrRequestAccept';
+import QrRequestReject from './QrRequestReject';
 
 const rowWidth = 155;
 
@@ -35,6 +36,7 @@ export default function QrRequestDetailDrawer({
   const isMobile = useMediaQuery('(max-width: 767px)', false);
   const { colorScheme } = useMantineColorScheme();
   const [requestShowEdit, setRequestShowEdit] = useState<boolean>(false);
+  const [requestShowReject, setRequestShowReject] = useState<boolean>(false);
 
   const kyc_form = useForm();
 
@@ -138,9 +140,7 @@ export default function QrRequestDetailDrawer({
                       <Button
                         variant='outline'
                         color='red'
-                        onClick={() => {
-                          //TODO => call reject api
-                        }}>
+                        onClick={() => setRequestShowReject(true)}>
                         Reject
                       </Button>
                     </Group>
@@ -247,10 +247,17 @@ export default function QrRequestDetailDrawer({
           </Box>
         </ScrollArea>
       </Drawer>
-      <QrRequestStatusEdit
+      <QrRequestAccept
         open={requestShowEdit}
         onClose={(val?: any) => {
           setRequestShowEdit(false);
+        }}
+        store={store}
+      />
+      <QrRequestReject
+        open={requestShowReject}
+        onClose={(val?: any) => {
+          setRequestShowReject(false);
         }}
         store={store}
       />
