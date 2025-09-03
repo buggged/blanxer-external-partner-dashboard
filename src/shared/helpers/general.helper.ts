@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { MantineColorScheme } from '@mantine/core';
 
 export function onlyVaidChrs(str: string) {
   return str.replace(/[^a-zA-Z0-9-]/g, '');
@@ -73,4 +74,18 @@ export const dragReorder = (
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
   return result;
+};
+
+export const getConditionalColor = (
+  colorScheme: MantineColorScheme,
+  lightColor: string,
+  darkColor: string,
+): string => {
+  const isLightColor = lightColor.includes('#') || lightColor.includes('var(');
+  const isDarkColor = darkColor.includes('#') || darkColor.includes('var(');
+  if (colorScheme === 'dark') {
+    return isDarkColor ? darkColor : `var(--mantine-color-${darkColor})`;
+  } else {
+    return isLightColor ? lightColor : `var(--mantine-color-${lightColor})`;
+  }
 };
