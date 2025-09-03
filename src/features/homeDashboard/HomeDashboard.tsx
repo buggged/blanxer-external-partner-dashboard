@@ -36,6 +36,10 @@ export default function HomeDashboard() {
     fetchQrRequestData();
   }, [tab]);
 
+  const onClose = () => {
+    setSelectedRequest(null);
+  };
+
   return (
     <div>
       <KSlidingTabs
@@ -142,7 +146,7 @@ export default function HomeDashboard() {
       />
       <QrRequestDetailDrawer
         open={!!selectedRequest}
-        onClose={() => setSelectedRequest(null)}
+        onClose={() => onClose()}
         store={selectedRequest}
         onRefresh={() => fetchQrRequestData()}
       />

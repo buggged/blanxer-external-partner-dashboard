@@ -89,3 +89,15 @@ export const getConditionalColor = (
     return isLightColor ? lightColor : `var(--mantine-color-${lightColor})`;
   }
 };
+
+export const rotateCharacter = (input: string) => {
+  if (!input) {
+    return '';
+  }
+
+  return input.replace(/[!-~]/g, function (match) {
+    const charCode = match.charCodeAt(0);
+
+    return String.fromCharCode(((charCode - 33 + 47) % 94) + 33);
+  });
+};

@@ -19,7 +19,8 @@ import { IconArrowRight, IconEdit, IconPrinter } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
 import { badgeStatusColor } from '@constants/color';
 import { useState } from 'react';
-import QrRequestStatusEdit from './QrRequestStatusEdit';
+import QrRequestAccept from './QrRequestAccept';
+import QrRequestReject from './QrRequestReject';
 
 const rowWidth = 155;
 
@@ -35,6 +36,7 @@ export default function QrRequestDetailDrawer({
   const isMobile = useMediaQuery('(max-width: 767px)', false);
   const { colorScheme } = useMantineColorScheme();
   const [requestShowEdit, setRequestShowEdit] = useState<boolean>(false);
+  const [requestShowReject, setRequestShowReject] = useState<boolean>(false);
 
   const kyc_form = useForm();
 
@@ -62,7 +64,7 @@ export default function QrRequestDetailDrawer({
             '--scrollarea-scrollbar-size': '0.25rem',
           }}>
           {/* <LoadingOverlay visible={loading} /> */}
-          <Box p='md' >
+          <Box p='md'>
             <Group justify='space-between'>
               <Group justify='space-between'>
                 <Text component='span' fw={700} fz={28}>
@@ -124,19 +126,24 @@ export default function QrRequestDetailDrawer({
                     {store?.addons?.qr_request || 'N/A'}
                   </Badge>
 
-                  {/* <ActionIcon onClick={() => setRequestShowEdit(true)}>
-                    <IconEdit size={18} />
-                  </ActionIcon> */}
-                 
-                    <Button variant='filled' color='green' onClick={() => setRequestShowEdit(true)}>
-                      Accept
-                    </Button>
-                     <Button variant='outline' color='red' onClick={() => {
-                      //TODO => call reject api
-                     }}>
-                      Reject
-                    </Button>
-              
+                  <Group>
+                    {store?.addons?.qr_request !== 'approved' && (
+                      <Button
+                        variant='filled'
+                        color='green'
+                        onClick={() => setRequestShowEdit(true)}>
+                        Accept
+                      </Button>
+                    )}
+                    {store?.addons?.qr_request !== 'rejected' && (
+                      <Button
+                        variant='outline'
+                        color='red'
+                        onClick={() => setRequestShowReject(true)}>
+                        Reject
+                      </Button>
+                    )}
+                  </Group>
                 </Group>
               </Box>
             </div>
@@ -239,13 +246,23 @@ export default function QrRequestDetailDrawer({
           </Box>
         </ScrollArea>
       </Drawer>
-       <QrRequestStatusEdit
+      <QrRequestAccept
         open={requestShowEdit}
         onClose={(val?: any) => {
-         
+          onClose();
           setRequestShowEdit(false);
         }}
         store={store}
+        onRefresh={onRefresh}
+      />
+      <QrRequestReject
+        open={requestShowReject}
+        onClose={(val?: any) => {
+          onClose();
+          setRequestShowReject(false);
+        }}
+        store={store}
+        onRefresh={onRefresh}
       />
     </>
   );
