@@ -58,7 +58,7 @@ export default function QrRequestStatusEdit({
       const payload = { token: base64form, store_id: store._id };
       await dashboardService.updateQrRequest(payload);
 
-      notify.succces('Success', 'QR request Status updated successfully');
+      notify.succces('Success', 'QR request updated successfully');
       requestForm.reset();
       onClose();
     } catch (err: { message: string } | any) {

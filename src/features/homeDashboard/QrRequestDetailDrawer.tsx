@@ -62,7 +62,7 @@ export default function QrRequestDetailDrawer({
             '--scrollarea-scrollbar-size': '0.25rem',
           }}>
           {/* <LoadingOverlay visible={loading} /> */}
-          <Box p='md' >
+          <Box p='md'>
             <Group justify='space-between'>
               <Group justify='space-between'>
                 <Text component='span' fw={700} fz={28}>
@@ -127,16 +127,24 @@ export default function QrRequestDetailDrawer({
                   {/* <ActionIcon onClick={() => setRequestShowEdit(true)}>
                     <IconEdit size={18} />
                   </ActionIcon> */}
-                 
-                    <Button variant='filled' color='green' onClick={() => setRequestShowEdit(true)}>
-                      Accept
-                    </Button>
-                     <Button variant='outline' color='red' onClick={() => {
-                      //TODO => call reject api
-                     }}>
-                      Reject
-                    </Button>
-              
+                  {store?.addons?.qr_request === 'pending' && (
+                    <Group>
+                      <Button
+                        variant='filled'
+                        color='green'
+                        onClick={() => setRequestShowEdit(true)}>
+                        Accept
+                      </Button>
+                      <Button
+                        variant='outline'
+                        color='red'
+                        onClick={() => {
+                          //TODO => call reject api
+                        }}>
+                        Reject
+                      </Button>
+                    </Group>
+                  )}
                 </Group>
               </Box>
             </div>
@@ -239,10 +247,9 @@ export default function QrRequestDetailDrawer({
           </Box>
         </ScrollArea>
       </Drawer>
-       <QrRequestStatusEdit
+      <QrRequestStatusEdit
         open={requestShowEdit}
         onClose={(val?: any) => {
-         
           setRequestShowEdit(false);
         }}
         store={store}
