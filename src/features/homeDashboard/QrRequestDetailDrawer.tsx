@@ -2,6 +2,8 @@ import {
   ActionIcon,
   Badge,
   Box,
+  Button,
+  ButtonGroup,
   Drawer,
   Group,
   LoadingOverlay,
@@ -122,9 +124,19 @@ export default function QrRequestDetailDrawer({
                     {store?.addons?.qr_request || 'N/A'}
                   </Badge>
 
-                  <ActionIcon onClick={() => setRequestShowEdit(true)}>
+                  {/* <ActionIcon onClick={() => setRequestShowEdit(true)}>
                     <IconEdit size={18} />
-                  </ActionIcon>
+                  </ActionIcon> */}
+                 
+                    <Button variant='filled' color='green' onClick={() => setRequestShowEdit(true)}>
+                      Accept
+                    </Button>
+                     <Button variant='outline' color='red' onClick={() => {
+                      //TODO => call reject api
+                     }}>
+                      Reject
+                    </Button>
+              
                 </Group>
               </Box>
             </div>
