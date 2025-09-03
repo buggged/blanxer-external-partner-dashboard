@@ -8,12 +8,14 @@ import dashboardService from '@services/dashboard.service';
 import { DataTable } from 'mantine-datatable';
 import { use, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
+import { badgeStatusColor } from '@constants/color';
+import QrRequestDetailDrawer from './QrRequestDetailDrawer';
 
 export default function HomeDashboard() {
   const [loading, setLoading] = useState<boolean>(false);
   const [tab, setTab] = useState<string>('Pending');
-  const [requests, setRequests] = useState<any>(null);
-  const [selectedOrder, setSelectedOrder] = useState<string>('');
+  const [requests, setRequests] = useState<any[]>([]);
+  const [selectedRequest, setSelectedRequest] = useState<string | null>(null);
   const [page, setPage] = useState<number>(1);
 
   const PAGE_SIZE = 20;
@@ -55,17 +57,16 @@ export default function HomeDashboard() {
         columns={[
           {
             accessor: 'name',
-            title: 'Store Name',
+            title: 'Name',
             sortable: false,
             render: (el: any) => (
               <>
-                <Text fz={14}>{el?.name}</Text>
-                <Text c='blue' fz={11}>
-                  {el?.phone_number}
-                </Text>
+                <Text fz={14}>{el?.kyc?.name}</Text>
+               
               </>
             ),
           },
+       
           {
             accessor: 'kyc_status',
             title: 'KYC Status',
@@ -91,41 +92,72 @@ export default function HomeDashboard() {
             render: (el: any) => (
               <Badge
                 variant='light'
-                color={el.addons?.qr_request === 'pending' ? 'orange' : 'gray'}>
+                color={badgeStatusColor[el.addons?.qr_request]}>
                 {el.addons?.qr_request || 'N/A'}
               </Badge>
             ),
           },
           {
-            accessor: 'sub_domain',
-            title: 'Domain',
+            accessor: 'pan',
+            title: 'PAN',
             sortable: false,
             render: (el: any) => (
-              <>
-                <Text fz={13}>{el?.sub_domain}.blanxer.com</Text>
-                {el?.custom_domain && (
-                  <Text c='dimmed' fz={11}>
-                    {el.custom_domain}
-                  </Text>
-                )}
-              </>
+              <Text fz={14}>{el?.kyc?.pan}</Text>
+            ),
+          },
+            {
+            accessor: 'bank_name',
+            title: 'Bank Name',
+            sortable: false,
+            render: (el: any) => (
+              <Text fz={14}>{el?.kyc?.bank_name}</Text>
             ),
           },
           {
-            accessor: 'plan',
-            title: 'Plan',
+            accessor: 'account_number',
+            title: 'Account Number',
             sortable: false,
             render: (el: any) => (
-              <Badge variant='outline' color='blue'>
-                {el?.plan}
-              </Badge>
+              <Text fz={14}>{el?.kyc?.account_number}</Text>
             ),
           },
+           {
+            accessor: 'phone',
+            title: 'Phone Number',
+            sortable: false,
+            render: (el: any) => (
+              <Text fz={14}>{el?.kyc?.phone}</Text>
+            ),
+          },
+          {
+            accessor: 'bank_branch',
+            title: 'Bank Branch',
+            sortable: false,
+            render: (el: any) => (
+              <Text fz={14}>{el?.kyc?.bank_branch}</Text>
+            ),
+          },
+               {
+            accessor: 'address',
+            title: 'Address',
+            sortable: false,
+            render: (el: any) => (
+              <Text fz={14}>{el?.kyc?.address}</Text>
+            ),
+          },
+         
+         
         ]}
         onRowClick={({ record }) => {
-          setSelectedOrder(record?._id);
+          setSelectedRequest(record);
         }}
         idAccessor='_id'
+      />
+         <QrRequestDetailDrawer
+        open={!!selectedRequest}
+        onClose={() => setSelectedRequest(null)}
+        store={selectedRequest}
+        onRefresh={() => fetchQrRequestData()}
       />
     </div>
   );
