@@ -39,7 +39,6 @@ export default function QrRequestReject({
 
   const rejectRequest = async () => {
     setLoading(true);
-    console.log("inside the reject request function: ", rejectForm.values.reject_reason);
 
     try {
       const payload = { store_id: store._id, reject_reason: rejectForm.values.reject_reason };
