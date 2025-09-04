@@ -31,13 +31,12 @@ export default function KChangePasswordModal({ open, onClose, store }: any) {
       return;
     }
     setLoading(true);
-
     try {
       const payload = {
         store_id: store._id,
         oldPassword: changePasswordForm.values.oldPassword,
         newPassword: changePasswordForm.values.newPassword,
-      };
+      }; 
       await dashboardService.changePassword(payload);
       notify.succces('Success', 'Password changed successfully');
       changePasswordForm.reset();
