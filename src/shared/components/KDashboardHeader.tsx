@@ -25,12 +25,14 @@ import { IconLogout } from '@tabler/icons-react';
 import useAuth from '@hooks/useAuth';
 import { getStartingOfName } from '@helpers/general.helper';
 import { useState } from 'react';
+import { useStore } from '@store/store';
 
 export default function KDashboardHeader({ open, onToggle }: any) {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const isMobile = useMediaQuery('(max-width: 767px)', false);
   const { doLogout } = useAuth();
   const [showMenu, setShowMenu] = useState<boolean>(false);
+  const {user} = useStore();
 
   return (
     <>
@@ -52,12 +54,12 @@ export default function KDashboardHeader({ open, onToggle }: any) {
             gap: isMobile ? 8 : 0,
           }}>
           <Group gap={6} style={{ minWidth: 0, flexShrink: 0 }}>
-            <Burger
+            {/* <Burger
               opened={open}
               onClick={onToggle}
               hiddenFrom='sm'
               size='sm'
-            />
+            /> */}
             <KBlanxerLogo height={isMobile ? 24 : 36} />
           </Group>
 
@@ -77,6 +79,7 @@ export default function KDashboardHeader({ open, onToggle }: any) {
               position='bottom-end'>
               <Menu.Target>
                 <UnstyledButton onClick={() => setShowMenu(true)}>
+               
                   <Avatar
                     size={isMobile ? 'sm' : 'md'}
                     color='custom'
@@ -86,6 +89,11 @@ export default function KDashboardHeader({ open, onToggle }: any) {
                 </UnstyledButton>
               </Menu.Target>
               <Menu.Dropdown>
+                  <Menu.Item>
+                  <div className='flex'>
+                    <p>Hello, {user.username.replace(/_/, ' ')}</p>
+                  </div>
+                </Menu.Item>
                 <Menu.Item
                   onClick={(e) => e.stopPropagation()}
                   rightSection={
