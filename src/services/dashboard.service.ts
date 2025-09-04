@@ -19,9 +19,7 @@ const dashboardService = {
   rejectQrRequest: (payload: any): Promise<any> => {
     return axiosInstance.post(`/super/stores/qr_request/reject`, payload);
   },
-  changePassword: (payload: any): Promise<any> => {
-    return axiosInstance.post(`/super/stores/change_password`, payload);
-  }
+
 };
 
 export default dashboardService;

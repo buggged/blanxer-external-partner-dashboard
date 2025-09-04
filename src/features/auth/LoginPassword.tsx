@@ -31,6 +31,11 @@ export default function LoginPassword() {
     try {
       const res: any = await authService.login(payload);
 
+      if(res?.success === false && res?.goto) {
+        navigate(res.goto);
+        return;
+      }
+
       const { access_token, refresh_token, user_data } =
         generalConstants.localStorage;
       localStorage.setItem(access_token, res?.access_token);

@@ -1,21 +1,26 @@
 import notify from '@helpers/notification.helper';
 import { validation } from '@helpers/validation.helper';
-import { Group, PasswordInput } from '@mantine/core';
+import { Group, PasswordInput, TextInput } from '@mantine/core';
 import { Button, Modal } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import authService from '@services/auth.service';
 import dashboardService from '@services/dashboard.service';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function KChangePasswordModal({ open, onClose, store }: any) {
   const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const changePasswordForm = useForm({
     initialValues: {
+      userName: '',
       oldPassword: '',
       newPassword: '',
       confirmPassword: '',
     },
     validate: {
+      userName: (val: string) => validation.required(val),
       oldPassword: (val: string) => validation.password(val),
       newPassword: (val: string) => validation.password(val),
       confirmPassword: (val: string) => validation.password(val),
@@ -33,13 +38,21 @@ export default function KChangePasswordModal({ open, onClose, store }: any) {
     setLoading(true);
     try {
       const payload = {
-        store_id: store._id,
-        oldPassword: changePasswordForm.values.oldPassword,
-        newPassword: changePasswordForm.values.newPassword,
-      }; 
-      await dashboardService.changePassword(payload);
+        username: changePasswordForm.values.userName,
+        old_password: changePasswordForm.values.oldPassword,
+        new_password: changePasswordForm.values.newPassword,
+        confirm_password: changePasswordForm.values.confirmPassword,
+      };
+
+      const res = await authService.changePassword(payload);
+
       notify.succces('Success', 'Password changed successfully');
+
       changePasswordForm.reset();
+      if (res?.success === true && res?.goto) {
+        navigate(res.goto);
+        return;
+      }
       onClose();
     } catch (err) {
       notify.genericError('Error Changing Password', err);
@@ -61,6 +74,11 @@ export default function KChangePasswordModal({ open, onClose, store }: any) {
       }}>
       <form onSubmit={changePasswordForm.onSubmit(changePassword)}>
         <div className='flex flex-col gap-2 mb-4'>
+          <TextInput
+            label='Username'
+            placeholder='Enter username'
+            {...changePasswordForm.getInputProps('userName')}
+          />
           <PasswordInput
             label='Old Password'
             type='password'

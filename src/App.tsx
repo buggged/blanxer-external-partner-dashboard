@@ -1,5 +1,6 @@
 import { KDashboardLayout } from '@components/KDashboardLayout';
 import generalConstants from '@constants/general';
+import ChangePassword from '@features/auth/ChangePassword';
 import LoginPassword from '@features/auth/LoginPassword';
 import HomeDashboard from '@features/homeDashboard/HomeDashboard';
 import { useStore } from '@store/store';
@@ -14,6 +15,8 @@ function App() {
       <Routes>
         <Route index element={<IsLogged />} />
         <Route path='/login' element={<LoginPassword />} />
+        <Route path='/change-password' element={<ChangePassword />} />
+
 
         {isLoggedIn && (
           <Route path='/dashboard' element={<KDashboardLayout />}>
