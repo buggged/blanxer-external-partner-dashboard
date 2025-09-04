@@ -66,13 +66,13 @@ export default function QrRequestReject({
         },
       }}>
       <form onSubmit={rejectForm.onSubmit(rejectRequest)}>
-        <Flex direction='column' gap={16} mt={16}>
+         <div className='flex flex-col gap-2 mb-4'>
           <Textarea
             label='Rejection Reason'
             placeholder='Enter reason for rejection'
             {...rejectForm.getInputProps('reject_reason')}
           />
-        </Flex>
+        </div>
 
         <Group justify='flex-end' mt={16}>
           <Button loading={loading} color='red' type='submit'>

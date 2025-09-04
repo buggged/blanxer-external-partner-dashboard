@@ -11,7 +11,7 @@ export function KDashboardLayout() {
   const navigate = useNavigate();
   const {user} = useStore();
 
-  console.log("user from the store in the layout:", user);
+
 
   const [opened, { open, close }] = useDisclosure(); // sidebar state
   const [openAddStore, setOpenAddStore] = useState<boolean>(false);

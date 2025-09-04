@@ -74,11 +74,7 @@ export default function QrRequestAccept({
     setLoading(false);
   };
 
-  const rejectRequest = async()=>{
-    setLoading(true);
-    const payload = { store_id: store._id };
-    const response = await dashboardService.rejectQrRequest(payload);
-  }
+
 
   return (
     <Modal
@@ -92,7 +88,7 @@ export default function QrRequestAccept({
         },
       }}>
       <form onSubmit={requestForm.onSubmit(updateRequest)}>
-        <Flex direction='column' gap={16} mt={16}>
+          <div className='flex flex-col gap-2 mb-4'>
           <TextInput
             label='Fonepay username'
             placeholder='eg: johndoe'
@@ -108,7 +104,7 @@ export default function QrRequestAccept({
             placeholder='enter password'
             {...requestForm.getInputProps('password')}
           />
-        </Flex>
+        </div>
 
         <Group justify='flex-end' mt={16}>
           <Button loading={loading} type='submit'>

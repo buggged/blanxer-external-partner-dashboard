@@ -15,6 +15,7 @@ import KBlanxerLogo from './KBlanxerLogo';
 import {
   IconBarcode,
   IconHelp,
+  IconLock,
   IconMoon,
   IconWorldWww,
 } from '@tabler/icons-react';
@@ -26,13 +27,16 @@ import useAuth from '@hooks/useAuth';
 import { getStartingOfName } from '@helpers/general.helper';
 import { useState } from 'react';
 import { useStore } from '@store/store';
+import KChangePasswordModal from './KChangePasswordModal';
 
 export default function KDashboardHeader({ open, onToggle }: any) {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const isMobile = useMediaQuery('(max-width: 767px)', false);
   const { doLogout } = useAuth();
   const [showMenu, setShowMenu] = useState<boolean>(false);
-  const {user} = useStore();
+  const [showChangePasswordModal, setShowChangePasswordModal] =
+    useState<boolean>(false);
+  const { user } = useStore();
 
   return (
     <>
@@ -79,7 +83,6 @@ export default function KDashboardHeader({ open, onToggle }: any) {
               position='bottom-end'>
               <Menu.Target>
                 <UnstyledButton onClick={() => setShowMenu(true)}>
-               
                   <Avatar
                     size={isMobile ? 'sm' : 'md'}
                     color='custom'
@@ -89,7 +92,7 @@ export default function KDashboardHeader({ open, onToggle }: any) {
                 </UnstyledButton>
               </Menu.Target>
               <Menu.Dropdown>
-                  <Menu.Item>
+                <Menu.Item>
                   <div className='flex'>
                     <p>Hello, {user.username.replace(/_/, ' ')}</p>
                   </div>
@@ -105,6 +108,17 @@ export default function KDashboardHeader({ open, onToggle }: any) {
                   leftSection={<IconMoon size={14} />}>
                   <div className='flex'>
                     <p>Dark Mode</p>
+                  </div>
+                </Menu.Item>
+                <Menu.Item
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowChangePasswordModal(true);
+                    setShowMenu(false);
+                  }}
+                  leftSection={<IconLock size={14} />}>
+                  <div className='flex'>
+                    <p>Change Password</p>
                   </div>
                 </Menu.Item>
 
@@ -124,6 +138,14 @@ export default function KDashboardHeader({ open, onToggle }: any) {
           </Group>
         </Flex>
       </Box>
+      {showChangePasswordModal && (
+        <KChangePasswordModal
+          open={showChangePasswordModal}
+          onClose={() => setShowChangePasswordModal(false)}
+          store={user}
+          onRefresh={() => {}}
+        />
+      )}
     </>
   );
 }
