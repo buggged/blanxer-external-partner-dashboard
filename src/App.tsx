@@ -1,7 +1,7 @@
 import { KDashboardLayout } from '@components/KDashboardLayout';
 import generalConstants from '@constants/general';
 import LoginPassword from '@features/auth/LoginPassword';
-import HomeDashboard from '@features/homeDashboard/homeDashboard';
+import HomeDashboard from '@features/homeDashboard/HomeDashboard';
 import { useStore } from '@store/store';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
