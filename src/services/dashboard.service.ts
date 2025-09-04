@@ -19,6 +19,7 @@ const dashboardService = {
   rejectQrRequest: (payload: any): Promise<any> => {
     return axiosInstance.post(`/super/stores/qr_request/reject`, payload);
   },
+
 };
 
 export default dashboardService;

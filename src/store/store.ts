@@ -1,3 +1,4 @@
+import generalConstants from '@constants/general';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -19,6 +20,13 @@ export const useStore: any = create<StoreState>()(
       user: null,
       isLoggedIn: false,
       setUser: (user) => set({ ...useStore.getState(), user }),
+
+      logout: () => {
+        set({ user: null, isLoggedIn: false });
+        localStorage.removeItem(generalConstants.localStorage.user_data);
+        localStorage.removeItem(generalConstants.localStorage.access_token);
+        localStorage.removeItem(generalConstants.localStorage.refresh_token);
+      },
     }),
     {
       name: 'food-storage',
