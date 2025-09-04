@@ -14,9 +14,6 @@ export default function ChangePassword() {
 
   const navigate = useNavigate();
 
-
-  
-
   return (
     <div className='max-w-[440px] w-[90%] mx-auto mt-[120px]'>
      <KChangePasswordModal open={true} onClose={() => navigate('/login')} />

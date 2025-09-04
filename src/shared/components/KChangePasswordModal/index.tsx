@@ -5,12 +5,14 @@ import { Button, Modal } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import authService from '@services/auth.service';
 import dashboardService from '@services/dashboard.service';
+import { useStore } from '@store/store';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function KChangePasswordModal({ open, onClose, store }: any) {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const {logout} = useStore();
 
   const changePasswordForm = useForm({
     initialValues: {
@@ -46,9 +48,11 @@ export default function KChangePasswordModal({ open, onClose, store }: any) {
 
       const res = await authService.changePassword(payload);
 
+
       notify.succces('Success', 'Password changed successfully');
 
       changePasswordForm.reset();
+      logout();
       if (res?.success === true && res?.goto) {
         navigate(res.goto);
         return;
