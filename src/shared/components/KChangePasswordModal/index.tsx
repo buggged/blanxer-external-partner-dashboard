@@ -1,28 +1,12 @@
-import { badgeStatusColor } from '@constants/color';
-import { rotateCharacter } from '@helpers/general.helper';
 import notify from '@helpers/notification.helper';
 import { validation } from '@helpers/validation.helper';
-import { Badge, Flex, Group, PasswordInput, Textarea, TextInput } from '@mantine/core';
-import { Button, Modal, Select, Text } from '@mantine/core';
+import { Group, PasswordInput } from '@mantine/core';
+import { Button, Modal } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import dashboardService from '@services/dashboard.service';
-// import productSlice from '@store/slice/product';
-import { encode as base64_encode } from 'base-64';
-import { useEffect } from 'react';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 
-const QrRequestStatus = [
-  { value: 'approved', label: 'Approve' },
-  { value: 'rejected', label: 'Reject' },
-  { value: 'pending', label: 'Pending' },
-];
-export default function KChangePasswordModal({
-  open,
-  onClose,
-  store,
-}: any) {
-  // const dispatch = useDispatch();
+export default function KChangePasswordModal({ open, onClose, store }: any) {
   const [loading, setLoading] = useState<boolean>(false);
 
   const changePasswordForm = useForm({
@@ -59,7 +43,7 @@ export default function KChangePasswordModal({
       changePasswordForm.reset();
       onClose();
     } catch (err) {
-      notify.genericError('Error Rejecting Request', err);
+      notify.genericError('Error Changing Password', err);
     } finally {
       setLoading(false);
     }
